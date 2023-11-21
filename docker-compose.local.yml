@@ -1,0 +1,9 @@
+version: "3.8"
+
+services:
+  backend:
+    build:
+     context: backend
+    command: ["npm", "run", "dev"]
+    volumes:
+      - ./backend/src:/usr/src/app/src

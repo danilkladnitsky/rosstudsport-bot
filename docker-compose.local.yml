@@ -6,4 +6,4 @@ services:
      context: backend-service
     command: ["npm", "run", "dev"]
     volumes:
-      - ./backend/src:/usr/src/app/src
+      - ./backend-service/src:/usr/src/app/src

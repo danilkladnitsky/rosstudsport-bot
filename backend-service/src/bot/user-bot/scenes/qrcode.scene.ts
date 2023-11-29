@@ -21,7 +21,7 @@ export class QrCodeScene {
             })).Body;
 
             const rawImage = await bodyResponse.transformToString('base64');
-            const buffer = Buffer.from(rawImage);
+            const buffer = Buffer.from(rawImage, 'base64');
 
             return { ok: true, source: buffer };
         } catch (error) {
@@ -43,7 +43,7 @@ export class QrCodeScene {
             const { ok, source } = await this.generatePersonalQrCode(text);
 
             if (ok) {
-                await ctx.replyWithPhoto({ source });
+                await ctx.replyWithPhoto({ source, filename: `QR-код для участника ${text}` });
                 await ctx.scene.leave();
                 return;
             }

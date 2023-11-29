@@ -2,13 +2,15 @@ import { Module } from '@nestjs/common';
 import {
   ConfigModule
 } from '@nestjs/config';
-
+import { TypeOrmModule } from '@nestjs/typeorm';
 import { S3Module } from 'nestjs-s3';
 import { TelegrafModule } from 'nestjs-telegraf';
+
 import { BotInstances } from './shared/telegraf/bots';
 import { UserBotModule } from './bot/user-bot/user-bot.module';
 import { sessionMiddleware } from './middleware/session';
 import { AdministratorBotModule } from './bot/administrator-bot/administrator-bot.module';
+import { UserEntity } from './database/entities/user.entity';
 
 @Module({
   imports: [
@@ -32,7 +34,8 @@ import { AdministratorBotModule } from './bot/administrator-bot/administrator-bo
         return {
           token: process.env.USER_BOT_TOKEN,
           include: [UserBotModule],
-          middlewares: [sessionMiddleware]
+          middlewares: [sessionMiddleware],
+          launchOptions: { allowedUpdates: ['message', 'callback_query'] }
         }
       },
     }),
@@ -42,12 +45,23 @@ import { AdministratorBotModule } from './bot/administrator-bot/administrator-bo
         return {
           token: process.env.ADMINISTRATOR_BOT_TOKEN,
           include: [AdministratorBotModule],
-          middlewares: [sessionMiddleware]
+          middlewares: [sessionMiddleware],
+          launchOptions: { allowedUpdates: ['message', 'callback_query'] }
         }
       },
     }),
+    TypeOrmModule.forRoot({
+      type: 'postgres',
+      host: process.env.PG_HOST,
+      port: +process.env.PG_PORT || 5432,
+      username: process.env.PG_USER,
+      password: process.env.PG_PASSWORD,
+      database: process.env.PG_DB,
+      entities: [UserEntity],
+      synchronize: true,
+    }),
     UserBotModule,
-    AdministratorBotModule
+    AdministratorBotModule,
   ],
 })
 export class AppModule { }

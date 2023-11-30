@@ -14,3 +14,10 @@ export const BroadcastKeyboards = Keyboard.inline([
         callback_data: "decline"
     }]
 ]).reply_markup;
+
+export const AnswerQuestionKeyboard = Keyboard.inline([
+    {
+        text: "Ответить на вопрос",
+        callback_data: "answer_on_question"
+    }
+]).reply_markup;

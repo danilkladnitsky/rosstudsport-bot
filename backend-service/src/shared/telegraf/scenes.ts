@@ -3,4 +3,5 @@ export enum SCENES {
     QR_CODE = 'qrcode',
     QUESTION_TO_SPEAKER = 'speaker',
     ADMIN_BROADCAST = 'broadcast',
+    ADMIN_ANSWER = 'answer'
 }

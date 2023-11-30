@@ -8,7 +8,7 @@ on:
 jobs:
   push-to-registry:
     name: Build and publish images to Docker Registry
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     env:
       backend-service: ${{ secrets.DOCKERHUB_USERNAME }}/rosstudsport.telegram-bot
     steps:
@@ -36,3 +36,42 @@ jobs:
           cache-from: type=registry,ref=${{env.backend-service}}:latest
           cache-to: type=inline
           platforms: linux/x86_64
+
+  create-env-config:
+    name: Copy secrets to env
+    runs-on: self-hosted
+    needs: push-to-registry
+    steps:
+      -
+        uses: SpicyPizza/create-envfile@v1.3
+        with:
+          envkey_PG_PORT: ${{ secrets.PG_PORT }}
+          envkey_PG_USER: ${{ secrets.PG_USER }}
+          envkey_PG_PASSWORD: ${{ secrets.PG_PASSWORD }}
+          envkey_PG_DB: ${{ secrets.PG_DB }}
+          envkey_PG_HOST: ${{ secrets.PG_HOST }}
+          envkey_BOT_PORT: ${{ secrets.BOT_PORT }}
+          envkey_USER_BOT_TOKEN: ${{ secrets.USER_BOT_TOKEN }}
+          envkey_ADMINISTRATOR_BOT_TOKEN: ${{ secrets.ADMINISTRATOR_BOT_TOKEN }}
+          envkey_S3_URL: ${{ secrets.S3_URL }}
+          envkey_S3_ACCESS_KEY: ${{ secrets.S3_ACCESS_KEY }}
+          envkey_S3_SECRET_KEY: ${{ secrets.S3_SECRET_KEY }}
+          envkey_S3_BUCKET: ${{ secrets.S3_BUCKET }}
+          envkey_S3_PUBLIC_PATH: ${{ secrets.S3_PUBLIC_PATH }}
+          file_name: .env
+          fail_on_empty: false
+
+  build:
+    needs: create-env-config
+    name: Build backend
+    runs-on: self-hosted
+    steps:
+      -
+        name: Pull service
+        run: docker compose pull
+      -
+        name: Build service
+        run: docker compose --env-file .env up frontend -d --force-recreate
+      -
+        name: Check service
+        run: docker ps -a

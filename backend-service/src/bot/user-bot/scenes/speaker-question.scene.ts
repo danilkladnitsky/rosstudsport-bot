@@ -7,7 +7,7 @@ import { getUserName } from "../../../utils/getUserName";
 
 @Wizard(SCENES.QUESTION_TO_SPEAKER)
 export class QuestionToSpeakerScene {
-    constructor(@InjectBot(BotInstances.ADMINISTRATOR_BOT) private readonly speakerBot: Telegraf<TelegrafContext>) { }
+    constructor(@InjectBot(BotInstances.ADMINISTRATOR_BOT) private readonly adminBot: Telegraf<TelegrafContext>) { }
 
     @SceneEnter()
     async onSceneEnter(@Ctx() ctx: WizardContext) {
@@ -20,7 +20,7 @@ export class QuestionToSpeakerScene {
             const { text, from: { id: userId } } = message;
             const username = getUserName(ctx);
 
-            await this.speakerBot.telegram.sendMessage(userId, `Участник ${username} задал вопрос спикеру:\n\n"${text}"`);
+            await this.adminBot.telegram.sendMessage(userId, `Участник ${username} задал вопрос спикеру:\n\n"${text}"`);
 
             await ctx.reply('Ваш вопрос был отправлен!');
             await ctx.scene.leave();

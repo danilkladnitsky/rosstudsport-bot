@@ -9,3 +9,15 @@ services:
     environment:
     - ${BOT_TOKEN}
     - ${BOT_PORT}
+    - ${USER_BOT_TOKEN}
+    - ${ADMINISTRATOR_BOT_TOKEN}
+    - ${S3_URL}
+    - ${S3_ACCESS_KEY}
+    - ${S3_SECRET_KEY}
+    - ${S3_BUCKET}
+    - ${S3_PUBLIC_PATH}
+    - ${PG_USER}
+    - ${PG_HOST}
+    - ${PG_DB}
+    - ${PG_PASSWORD}
+    - ${PG_PORT}

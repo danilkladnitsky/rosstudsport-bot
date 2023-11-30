@@ -7,7 +7,6 @@ services:
     ports:
       - ${BOT_PORT}:${BOT_PORT}
     environment:
-    - ${BOT_TOKEN}
     - ${BOT_PORT}
     - ${USER_BOT_TOKEN}
     - ${ADMINISTRATOR_BOT_TOKEN}

@@ -2,5 +2,6 @@ version: "3.8"
 
 services:
   backend:
-    image: danyakladnitsky/rosstudsport.telegram-bot
+    image: danyakladnitsky/rosstudsport.telegram-bot:latest
     command: ["npm", "run", "start:prod"]
+    pull_policy: always

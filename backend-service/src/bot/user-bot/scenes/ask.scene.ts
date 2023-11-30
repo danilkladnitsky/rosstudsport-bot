@@ -20,7 +20,7 @@ export class AskScene {
     const username = getUserName(ctx);
 
     try {
-      await this.adminBot.telegram.sendMessage(userId, `Участник ${username} задал вопрос спикеру:\n\n"${text}"`);
+      await this.adminBot.telegram.sendMessage(userId, `Участник ${username} задал вопрос:\n\n"${text}"`);
       await ctx.reply('Ваш вопрос был отправлен администратору!');
       await ctx.scene.leave();
     } catch (error) {

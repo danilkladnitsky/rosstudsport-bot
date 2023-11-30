@@ -68,10 +68,10 @@ jobs:
     steps:
       -
         name: Pull service
-        run: docker compose pull
+        run: docker compose -f docker-compose.prod.yml pull
       -
         name: Build service
-        run: docker compose -f docker-compose.yml -f docker-compose.prod.yml --env-file .env up frontend -d --force-recreate
+        run: docker compose -f docker-compose.yml -f docker-compose.prod.yml --env-file .env up -d --force-recreate
       -
         name: Check service
         run: docker ps -a

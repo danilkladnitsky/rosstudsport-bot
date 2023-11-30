@@ -1,0 +1,9 @@
+version: "3.8"
+
+services:
+  backend:
+    build:
+     context: backend-service
+    command: ["npm", "run", "start:prod"]
+    ports:
+      - ${BOT_PORT}:${BOT_PORT}

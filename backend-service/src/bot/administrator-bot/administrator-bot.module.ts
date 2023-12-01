@@ -3,9 +3,10 @@ import { AdministratorBotController } from "./administrator-bot.controller";
 import { BroadcastScene } from "./scenes/broadcast.scene";
 import { UserModule } from "../../services/user/user.module";
 import { QuestionModule } from "../../services/question/question.module";
+import { AnswerScene } from "./scenes/answer.scene";
 
 @Module({
     imports: [UserModule, QuestionModule],
-    providers: [AdministratorBotController, BroadcastScene]
+    providers: [AdministratorBotController, BroadcastScene, AnswerScene]
 })
 export class AdministratorBotModule { }

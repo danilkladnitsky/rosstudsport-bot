@@ -4,6 +4,7 @@ import { WizardContext, SCENES, TelegrafContext, UserMessage, } from "../../../s
 import { BotInstances } from "../../../shared/telegraf/bots";
 import { Telegraf } from "telegraf";
 import { getUserName } from "../../../utils/getUserName";
+import { createAnswerQuestionKeyboard } from "../../../shared/dialogs/admin-bot/keyboard";
 
 @Wizard(SCENES.ASK)
 export class AskScene {
@@ -16,12 +17,13 @@ export class AskScene {
 
   @On("text")
   async handle(@Ctx() ctx: WizardContext, @Message() message: UserMessage) {
-    const { text, from: { id: userId } } = message;
+    const { text, from: { id: userId }, message_id } = message;
     const username = getUserName(ctx);
 
     try {
-      await this.adminBot.telegram.sendMessage(userId, `Участник ${username} задал вопрос:\n\n"${text}"`);
-      await ctx.reply('Ваш вопрос был отправлен администратору!');
+      await this.adminBot.telegram.sendMessage(userId, `Участник ${username} задал вопрос:\n\n"${text}"`,
+        { reply_markup: createAnswerQuestionKeyboard(message_id, userId) });
+      await ctx.reply('Ваш вопрос был отправлен администратору! Ждите ответа.');
       await ctx.scene.leave();
     } catch (error) {
       console.error(error);

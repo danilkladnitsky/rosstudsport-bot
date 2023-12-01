@@ -15,9 +15,9 @@ export const BroadcastKeyboards = Keyboard.inline([
     }]
 ]).reply_markup;
 
-export const AnswerQuestionKeyboard = Keyboard.inline([
+export const createAnswerQuestionKeyboard = (messageId: number, userId: number) => Keyboard.inline([
     {
         text: "Ответить на вопрос",
-        callback_data: "answer_on_question"
+        callback_data: `question_${messageId}_${userId}`,
     }
 ]).reply_markup;

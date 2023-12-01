@@ -21,6 +21,7 @@
     "@nestjs/core": "^10.0.0",
     "@nestjs/platform-express": "^10.0.0",
     "@nestjs/typeorm": "^10.0.1",
+    "axios": "^1.6.2",
     "nestjs-s3": "^2.0.1",
     "nestjs-telegraf": "^2.7.0",
     "node-schedule": "^2.1.1",

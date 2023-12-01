@@ -9,6 +9,11 @@ export class AdministratorBotController {
         await ctx.scene.enter(SCENES.ADMIN_BROADCAST);
     }
 
+    @Command(SCENES.ADMIN_BLOG)
+    async onBlogEnter(@Ctx() ctx: WizardContext) {
+        await ctx.scene.enter(SCENES.ADMIN_BLOG);
+    }
+
     @Action(/question\_(\d+)/gm)
     async onUserQuestion(@Ctx() ctx: WizardContext) {
         try {

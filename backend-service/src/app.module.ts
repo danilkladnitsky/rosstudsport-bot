@@ -11,6 +11,8 @@ import { UserBotModule } from './bot/user-bot/user-bot.module';
 import { sessionMiddleware } from './middleware/session';
 import { AdministratorBotModule } from './bot/administrator-bot/administrator-bot.module';
 import { UserEntity } from './database/entities/user.entity';
+import { QuestionEntity } from './database/entities/question.entity';
+import { PollEntity } from './database/entities/poll.entity';
 
 @Module({
   imports: [
@@ -35,7 +37,7 @@ import { UserEntity } from './database/entities/user.entity';
           token: process.env.USER_BOT_TOKEN,
           include: [UserBotModule],
           middlewares: [sessionMiddleware],
-          launchOptions: { allowedUpdates: ['message', 'callback_query'] }
+          launchOptions: { allowedUpdates: ['message', 'callback_query', 'poll', 'poll_answer'] }
         }
       },
     }),
@@ -57,7 +59,7 @@ import { UserEntity } from './database/entities/user.entity';
       username: process.env.PG_USER,
       password: process.env.PG_PASSWORD,
       database: process.env.PG_DB,
-      entities: [UserEntity],
+      entities: [UserEntity, QuestionEntity, PollEntity],
       synchronize: true,
     }),
     UserBotModule,

@@ -6,9 +6,10 @@ import { QuestionModule } from "../../services/question/question.module";
 import { AnswerScene } from "./scenes/answer.scene";
 import { BlogScene } from "./scenes/blog.scene";
 import { FileModule } from "../../services/file/file.module";
+import { PollScene } from "./scenes/poll.scene";
 
 @Module({
     imports: [UserModule, QuestionModule, FileModule],
-    providers: [AdministratorBotController, BroadcastScene, AnswerScene, BlogScene]
+    providers: [AdministratorBotController, BroadcastScene, AnswerScene, BlogScene, PollScene]
 })
 export class AdministratorBotModule { }

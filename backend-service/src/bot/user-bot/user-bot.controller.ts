@@ -3,16 +3,18 @@ import {
   Ctx,
   Start,
   Command,
+  On,
 } from 'nestjs-telegraf';
 
-import { TelegrafContext } from '../../shared/telegraf/context';
+import { TelegrafContext, WizardContext } from '../../shared/telegraf/context';
 import { SCENES } from '../../shared/telegraf';
 import { UserService } from '../../services/user/user.service';
 import { CreateUserDto } from '../../shared/dto/user.create.dto';
+import { PollService } from '../../services/poll/poll.service';
 
 @Update()
 export class BotUpdate {
-  constructor(private readonly userService: UserService) { }
+  constructor(private readonly userService: UserService, private readonly pollService: PollService) { }
 
   @Start()
   async onStart(@Ctx() ctx: TelegrafContext) {
@@ -48,5 +50,17 @@ export class BotUpdate {
   @Command(SCENES.QR_CODE)
   async onQrCode(@Ctx() ctx: TelegrafContext) {
     await ctx.scene.enter(SCENES.QR_CODE);
+  }
+
+  @On('poll')
+  async onPoll(@Ctx() ctx: WizardContext) {
+    try {
+      const { poll } = ctx;
+      const { id, options, question } = poll;
+
+      this.pollService.create({ pollId: id, question, result: JSON.stringify(options) })
+    } catch (error) {
+      console.error(error);
+    }
   }
 }

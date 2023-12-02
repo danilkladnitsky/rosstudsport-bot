@@ -21,3 +21,25 @@ export const createAnswerQuestionKeyboard = (messageId: number, userId: number) 
         callback_data: `question_${messageId}_${userId}`,
     }
 ]).reply_markup;
+
+export const adminKeyboard = Keyboard.inline([
+    [{
+        text: "Отправить рассылку",
+        callback_data: "broadcast",
+    }],
+    [{
+        text: "Включить режим блоггера",
+        callback_data: "blog",
+    }],
+    [{
+        text: "Отправить голосование",
+        callback_data: "poll",
+    }],
+]).reply_markup;
+
+export const confirmPollKeyboard = Keyboard.inline([
+    [{
+        text: "Подтвердить и отправить",
+        callback_data: "confirm",
+    }]
+]).reply_markup;

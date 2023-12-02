@@ -1,15 +1,28 @@
-import { Action, Command, Ctx, Update } from "nestjs-telegraf";
+import { Action, Ctx, Start, Update } from "nestjs-telegraf";
+
 import { SCENES, WizardContext } from "../../shared/telegraf";
 import { AnswerUserQuestionQuery } from "../../shared/callbackQuery/question";
+import { adminKeyboard } from "../../shared/dialogs/admin-bot/keyboard";
 
 @Update()
 export class AdministratorBotController {
-    @Command(SCENES.ADMIN_BROADCAST)
+
+    @Start()
+    async onStart(@Ctx() ctx: WizardContext) {
+        await ctx.reply('Добро пожаловать в режим администратора.', { reply_markup: adminKeyboard })
+    }
+
+    @Action("poll")
+    async onPoll(@Ctx() ctx: WizardContext) {
+        await ctx.scene.enter(SCENES.ADMIN_POLL);
+    }
+
+    @Action("broadcast")
     async onBroadcastMessage(@Ctx() ctx: WizardContext) {
         await ctx.scene.enter(SCENES.ADMIN_BROADCAST);
     }
 
-    @Command(SCENES.ADMIN_BLOG)
+    @Action("blog")
     async onBlogEnter(@Ctx() ctx: WizardContext) {
         await ctx.scene.enter(SCENES.ADMIN_BLOG);
     }
@@ -33,5 +46,4 @@ export class AdministratorBotController {
             console.error(error);
         }
     }
-
 }

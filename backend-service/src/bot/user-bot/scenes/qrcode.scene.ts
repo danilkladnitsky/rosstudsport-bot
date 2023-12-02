@@ -1,4 +1,4 @@
-import { Ctx, Message, On, SceneEnter, Wizard } from "nestjs-telegraf";
+import { Command, Ctx, Message, On, SceneEnter, Wizard } from "nestjs-telegraf";
 import { InjectS3, S3 } from "nestjs-s3";
 
 import { SCENES, UserMessage, WizardContext } from "../../../shared/telegraf";
@@ -35,6 +35,12 @@ export class QrCodeScene {
         await ctx.reply(USER_BOT_MESSAGES.GET_QRCODE);
     }
 
+    @Command('exit')
+    async onExit(@Ctx() ctx: WizardContext) {
+        await ctx.reply("Вы вернулись в главное меню");
+        await ctx.scene.leave();
+    }
+
     @On('text')
     async onText(@Ctx() ctx: WizardContext, @Message() message: UserMessage) {
         try {
@@ -49,9 +55,11 @@ export class QrCodeScene {
             }
 
             await ctx.reply(USER_BOT_MESSAGES.NO_PERSONAL_QRCODE);
+            await ctx.scene.leave();
         } catch (error) {
             console.error(error);
             await ctx.reply(USER_BOT_MESSAGES.NO_PERSONAL_QRCODE);
+            await ctx.scene.leave();
         }
     }
 }

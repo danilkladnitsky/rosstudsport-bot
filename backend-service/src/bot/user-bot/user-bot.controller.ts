@@ -11,6 +11,7 @@ import { SCENES } from '../../shared/telegraf';
 import { UserService } from '../../services/user/user.service';
 import { CreateUserDto } from '../../shared/dto/user.create.dto';
 import { PollService } from '../../services/poll/poll.service';
+import { USER_BOT_MESSAGES } from '../../shared/dialogs/user-bot/messages';
 
 @Update()
 export class BotUpdate {
@@ -34,7 +35,7 @@ export class BotUpdate {
       await this.userService.createUser(newUser);
     }
 
-    await ctx.reply('Привет!');
+    await ctx.reply(USER_BOT_MESSAGES.WELCOME);
   }
 
   @Command(SCENES.ASK)

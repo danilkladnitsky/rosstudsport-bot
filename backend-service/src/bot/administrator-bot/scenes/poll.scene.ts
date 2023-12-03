@@ -1,4 +1,4 @@
-import { Action, Ctx, InjectBot, Message, On, Wizard, WizardStep } from "nestjs-telegraf";
+import { Action, Command, Ctx, InjectBot, Message, On, Wizard, WizardStep } from "nestjs-telegraf";
 import { SCENES, TelegrafContext, UserMessage, WizardContext } from "../../../shared/telegraf";
 import { BotInstances } from "../../../shared/telegraf/bots";
 import { Telegraf } from "telegraf";
@@ -35,6 +35,12 @@ export class PollScene {
                 console.error(error);
             }
         }
+    }
+
+    @Command('exit')
+    async onExit(@Ctx() ctx: WizardContext) {
+        await ctx.reply("Вы вернулись в главное меню");
+        await ctx.scene.leave();
     }
 
     @WizardStep(1)

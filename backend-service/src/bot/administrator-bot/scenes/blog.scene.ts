@@ -1,4 +1,4 @@
-import { Ctx, InjectBot, Message, On, SceneEnter, Wizard } from "nestjs-telegraf";
+import { Command, Ctx, InjectBot, Message, On, SceneEnter, Wizard } from "nestjs-telegraf";
 import { SCENES, TelegrafContext, UserMessage, WizardContext } from "../../../shared/telegraf";
 import { BotInstances } from "../../../shared/telegraf/bots";
 import { Telegraf } from "telegraf";
@@ -14,6 +14,12 @@ export class BlogScene {
         private readonly fileService: FileService,
         private readonly userService: UserService
     ) { }
+
+    @Command('exit')
+    async onExit(@Ctx() ctx: WizardContext) {
+        await ctx.reply("Вы вернулись в главное меню");
+        await ctx.scene.leave();
+    }
 
     @SceneEnter()
     onSceneEnter(@Ctx() ctx: WizardContext) {

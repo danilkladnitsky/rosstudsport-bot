@@ -23,6 +23,12 @@ export class BroadcastScene {
         this.jobQueue = [];
     }
 
+    @Command('exit')
+    async onExit(@Ctx() ctx: WizardContext) {
+        await ctx.reply("Вы вернулись в главное меню");
+        await ctx.scene.leave();
+    }
+
     @SceneEnter()
     async onSceneEnter(@Ctx() ctx: WizardContext) {
         await ctx.reply(ADMIN_BOT_MESSAGES.BROADCAST_MESSAGE);

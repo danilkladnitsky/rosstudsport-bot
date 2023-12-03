@@ -1,4 +1,4 @@
-import { Ctx, InjectBot, Message, On, SceneEnter, Wizard } from "nestjs-telegraf";
+import { Command, Ctx, InjectBot, Message, On, SceneEnter, Wizard } from "nestjs-telegraf";
 import { SCENES, TelegrafContext, UserMessage, WizardContext } from "../../../shared/telegraf";
 import { AnswerUserQuestionQuery } from "../../../shared/callbackQuery/question";
 import { BotInstances } from "../../../shared/telegraf/bots";
@@ -10,6 +10,12 @@ export class AnswerScene {
         @InjectBot(BotInstances.USER_BOT) private readonly userBot: Telegraf<TelegrafContext>,
         @InjectBot(BotInstances.ADMINISTRATOR_BOT) private readonly adminBot: Telegraf<TelegrafContext>,
     ) {
+    }
+
+    @Command('exit')
+    async onExit(@Ctx() ctx: WizardContext) {
+        await ctx.reply("Вы вернулись в главное меню");
+        await ctx.scene.leave();
     }
 
     @SceneEnter()

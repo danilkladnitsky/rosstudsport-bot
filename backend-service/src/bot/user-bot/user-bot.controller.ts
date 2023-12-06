@@ -38,19 +38,7 @@ export class BotUpdate {
     await ctx.reply(USER_BOT_MESSAGES.WELCOME);
   }
 
-  @On('text')
-  async onText(@Ctx() ctx: TelegrafContext) {
-    const { from } = ctx;
 
-    const user = await this.userService.getUser(from.id);
-
-    if (!user) {
-      await ctx.reply("Введите команду /start для начала работы с ботом");
-      return;
-    }
-
-    await ctx.reply("Хотите задать вопрос? Введите команду /ask.");
-  }
 
   @Command(SCENES.ASK)
   async onAsk(@Ctx() ctx: TelegrafContext) {
@@ -77,5 +65,19 @@ export class BotUpdate {
     } catch (error) {
       console.error(error);
     }
+  }
+
+  @On('text')
+  async onText(@Ctx() ctx: TelegrafContext) {
+    const { from } = ctx;
+
+    const user = await this.userService.getUser(from.id);
+
+    if (!user) {
+      await ctx.reply("Введите команду /start для начала работы с ботом");
+      return;
+    }
+
+    await ctx.reply("Хотите задать вопрос? Введите команду /ask.");
   }
 }

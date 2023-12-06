@@ -34,8 +34,12 @@ export class BlogScene {
         const users = await this.userService.getAllUsers();
 
         for (const user of users) {
-            await actionFn(user);
-            await this.wait(30);
+            try {
+                await actionFn(user);
+                await this.wait(30);
+            } catch (error) {
+                console.error(error);
+            }
         }
     }
 

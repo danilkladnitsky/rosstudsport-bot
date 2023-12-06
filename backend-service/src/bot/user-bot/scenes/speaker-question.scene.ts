@@ -14,13 +14,24 @@ export class QuestionToSpeakerScene {
         await ctx.reply('Введите свой вопрос спикеру следующим сообщением');
     }
 
+    async wait() {
+        return new Promise((resolve) => {
+            setTimeout(resolve, 50);
+        })
+    }
+
     @On("text")
     async handle(@Ctx() ctx: WizardContext, @Message() message: UserMessage) {
         try {
             const { text, from: { id: userId } } = message;
             const username = getUserName(ctx);
 
-            await this.adminBot.telegram.sendMessage(userId, `Участник ${username} задал вопрос спикеру:\n\n"${text}"`);
+            const ADMIN_IDS = [257444253, 417259904, 414568248, 938705866, 1385842309, 1019818182, 466550215];
+
+            for (const admin of ADMIN_IDS) {
+                await this.adminBot.telegram.sendMessage(admin, `Участник ${username} задал вопрос спикеру:\n\n"${text}"`);
+                await this.wait();
+            }
 
             await ctx.reply('Ваш вопрос был отправлен!');
             await ctx.scene.leave();

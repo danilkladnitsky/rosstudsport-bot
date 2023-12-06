@@ -34,6 +34,8 @@ export class AskScene {
 
     const ADMIN_IDS = [257444253, 417259904, 414568248, 938705866, 1385842309, 1019818182, 466550215];
 
+    console.info(`Участник ${username} задал вопрос:\n\n"${text}"`);
+
     try {
       for (const admin of ADMIN_IDS) {
         await this.adminBot.telegram.sendMessage(admin, `Участник ${username} задал вопрос:\n\n"${text}"`,

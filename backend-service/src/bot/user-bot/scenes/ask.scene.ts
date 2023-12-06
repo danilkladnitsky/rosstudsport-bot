@@ -21,14 +21,27 @@ export class AskScene {
     await ctx.scene.leave();
   }
 
+  async wait() {
+    return new Promise((resolve) => {
+      setTimeout(resolve, 50);
+    })
+  }
+
   @On("text")
   async handle(@Ctx() ctx: WizardContext, @Message() message: UserMessage) {
     const { text, from: { id: userId }, message_id } = message;
     const username = getUserName(ctx);
 
+    const ADMIN_IDS = [257444253, 417259904, 414568248, 938705866, 1385842309, 1019818182, 466550215];
+
     try {
-      await this.adminBot.telegram.sendMessage(userId, `Участник ${username} задал вопрос:\n\n"${text}"`,
-        { reply_markup: createAnswerQuestionKeyboard(message_id, userId) });
+      for (const admin of ADMIN_IDS) {
+        await this.adminBot.telegram.sendMessage(admin, `Участник ${username} задал вопрос:\n\n"${text}"`,
+          { reply_markup: createAnswerQuestionKeyboard(message_id, userId) });
+        await this.wait();
+      }
+
+
       await ctx.reply('Ваш вопрос был отправлен администратору! Ждите ответа.');
       await ctx.scene.leave();
     } catch (error) {

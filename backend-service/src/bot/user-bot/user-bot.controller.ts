@@ -12,8 +12,11 @@ import { UserService } from '../../services/user/user.service';
 import { CreateUserDto } from '../../shared/dto/user.create.dto';
 import { PollService } from '../../services/poll/poll.service';
 import { USER_BOT_MESSAGES } from '../../shared/dialogs/user-bot/messages';
+import { UseFilters } from '@nestjs/common';
+import { TelegrafExceptionFilter } from '../../shared/filters/telegraf-exception.filter';
 
 @Update()
+@UseFilters(TelegrafExceptionFilter)
 export class BotUpdate {
   constructor(private readonly userService: UserService, private readonly pollService: PollService) { }
 

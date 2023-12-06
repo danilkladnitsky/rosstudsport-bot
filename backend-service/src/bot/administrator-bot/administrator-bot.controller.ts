@@ -3,8 +3,13 @@ import { Action, Ctx, Start, Update } from "nestjs-telegraf";
 import { SCENES, WizardContext } from "../../shared/telegraf";
 import { AnswerUserQuestionQuery } from "../../shared/callbackQuery/question";
 import { adminKeyboard } from "../../shared/dialogs/admin-bot/keyboard";
+import { AdminGuard } from "./guards/admin.guard";
+import { UseFilters, UseGuards } from "@nestjs/common";
+import { TelegrafExceptionFilter } from "../../shared/filters/telegraf-exception.filter";
 
 @Update()
+@UseGuards(AdminGuard)
+@UseFilters(TelegrafExceptionFilter)
 export class AdministratorBotController {
 
     @Start()
